@@ -1,5 +1,5 @@
 #include "CommandHandler.h"
-
+#include <regex>
 
 std::vector<std::string> CommandHandler::split( std::string& _input, const std::string& _delim )
 {
@@ -26,8 +26,22 @@ std::vector<std::string> CommandHandler::split( std::string& _input, const std::
     return out;
 }
 
+std::string CommandHandler::clean( std::string& _input )
+{
+    _input.erase( std::remove( _input.begin(), _input.end(), ' '), _input.end() );
+    return _input;
+}
+
 bool CommandHandler::command( Robot& r, std::string& _inst )
 {
+    std::smatch sm;
+    if( std::regex_match( _inst, sm, std::regex( "(PLACE)\\s+(\\d,\\s*\\d,\\s*\\w+)\\s*" ) ) )
+    {
+        std::string tmp = sm[2].str();
+        tmp = clean( tmp );
+        _inst = sm[1].str() + " " + tmp;
+    }
+
     std::istringstream iss( _inst );
     std::vector<std::string> inst_vec{ std::istream_iterator<std::string>{iss},
         std::istream_iterator<std::string>{} };
@@ -52,13 +66,13 @@ bool CommandHandler::command( Robot& r, std::string& _inst )
                 return true;
             }
         }
-        else if( inst_vec[0] == "MOVE" )
+        else if( inst_vec.size() == 1 && inst_vec[0] == "MOVE" )
             r.move();
         
-        else if( inst_vec[0] == "RIGHT" || inst_vec[0] == "LEFT" )
+        else if( inst_vec.size() == 1 && (inst_vec[0] == "RIGHT" || inst_vec[0] == "LEFT") )
             r.rotate( inst_vec[0] );
 
-        else if( inst_vec[0] == "REPORT" )
+        else if( inst_vec.size() == 1 && inst_vec[0] == "REPORT" )
             r.report();
 
         return true;

@@ -3,8 +3,8 @@
 
 int main()
 {
-	CommandHandler cmd;
-	Robot rob;
+	CommandHandler cmdHandler;
+	Robot robot;
 	std::string comm;
 
 	while( std::getline( std::cin, comm ) )
@@ -15,7 +15,7 @@ int main()
 			continue;
 		}
 		
-		cmd.command( rob, comm );
+		cmdHandler.command( robot, comm );
 		
 		if( comm == "REPORT" )
 			break;
