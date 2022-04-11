@@ -31,12 +31,12 @@ bool Robot::place( int& _x, int& _y, std::string& _face )
 	return true;
 }
 
-bool Robot::rotate( std::string& direction  )
+bool Robot::rotate( std::string& _direction  )
 {	
 	if( !placed ) // robot not placed.
 		return false;
 
-	std::string* curr_face = &face;
+	std::string* current_face = &face;
 
 	std::map<std::string, std::string> turn_right{ {"NORTH", "EAST"}, {"EAST", "SOUTH"},
 			{"SOUTH", "WEST"}, {"WEST", "NORTH"} };
@@ -44,14 +44,14 @@ bool Robot::rotate( std::string& direction  )
 	std::map<std::string, std::string> turn_left{ {"NORTH", "WEST"}, {"WEST", "SOUTH"},
 			{"SOUTH", "EAST"}, {"EAST", "NORTH"} };
 
-	if( direction == "RIGHT" )
-		curr_face = &turn_right[*curr_face];
-	else if( direction == "LEFT" )
-		curr_face = &turn_left[*curr_face];
+	if( _direction == "RIGHT" )
+		current_face = &turn_right[*current_face];
+	else if( _direction == "LEFT" )
+		current_face = &turn_left[*current_face];
 	else
 		return false; // invalid direction
 
-	face = std::move( *curr_face );
+	face = *current_face;
 	return true;
 }
 
