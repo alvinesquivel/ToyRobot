@@ -59,7 +59,7 @@ bool CommandHandler::command( Robot& r, std::string& _inst )
             else
             {
                 std::vector<std::string> p_args = split( inst_vec[1], "," );
-                int p_arg1 = std::stoi( std::move( p_args[0] ));
+                int p_arg1 = std::stoi( std::move( p_args[0] ) );
                 int p_arg2 = std::stoi( std::move( p_args[1] ) );
                 std::string p_arg3 = std::move( p_args[2] );
                 r.place( p_arg1, p_arg2, p_arg3 );
