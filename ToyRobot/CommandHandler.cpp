@@ -37,9 +37,9 @@ bool CommandHandler::command( Robot& r, std::string& _inst )
     std::smatch sm;
     if( std::regex_match( _inst, sm, std::regex( "(PLACE)\\s+(\\d,\\s*\\d,\\s*\\w+)\\s*" ) ) )
     {
-        std::string tmp = sm[2].str();
+        std::string tmp = std::move( sm[2].str() );
         tmp = clean( tmp );
-        _inst = sm[1].str() + " " + tmp;
+        _inst = std::move( sm[1].str() + " " + tmp );
     }
 
     std::istringstream iss( _inst );
@@ -58,9 +58,10 @@ bool CommandHandler::command( Robot& r, std::string& _inst )
             }
             else
             {
-                int p_arg1 = std::stoi( split( inst_vec[1], "," )[0] );
-                int p_arg2 = std::stoi( split( inst_vec[1], "," )[1] );
-                std::string p_arg3 = split( inst_vec[1], "," )[2];
+                std::vector<std::string> p_args = split( inst_vec[1], "," );
+                int p_arg1 = std::stoi( std::move( p_args[0] ));
+                int p_arg2 = std::stoi( std::move( p_args[1] ) );
+                std::string p_arg3 = std::move( p_args[2] );
                 r.place( p_arg1, p_arg2, p_arg3 );
                 
                 return true;

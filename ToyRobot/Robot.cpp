@@ -31,12 +31,12 @@ bool Robot::place( int& _x, int& _y, std::string& _face )
 	return true;
 }
 
-bool Robot::rotate( std::string direction  )
+bool Robot::rotate( std::string& direction  )
 {	
 	if( !placed ) // robot not placed.
 		return false;
 
-	std::string curr_face = face;
+	std::string* curr_face = &face;
 
 	std::map<std::string, std::string> turn_right{ {"NORTH", "EAST"}, {"EAST", "SOUTH"},
 			{"SOUTH", "WEST"}, {"WEST", "NORTH"} };
@@ -45,13 +45,13 @@ bool Robot::rotate( std::string direction  )
 			{"SOUTH", "EAST"}, {"EAST", "NORTH"} };
 
 	if( direction == "RIGHT" )
-		curr_face = turn_right[curr_face];
+		curr_face = &turn_right[*curr_face];
 	else if( direction == "LEFT" )
-		curr_face = turn_left[curr_face];
+		curr_face = &turn_left[*curr_face];
 	else
 		return false; // invalid direction
 
-	face = curr_face;
+	face = std::move( *curr_face );
 	return true;
 }
 
@@ -74,8 +74,8 @@ bool Robot::move()
 	
 	if( is_valid_position( tmp_x, tmp_y ) )
 	{
-		x = tmp_x;
-		y = tmp_y;
+		x = std::move( tmp_x );
+		y = std::move( tmp_y );
 		return true;
 	}
 	else // ignore, not valid x,y position.

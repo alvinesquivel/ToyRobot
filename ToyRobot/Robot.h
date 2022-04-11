@@ -20,7 +20,7 @@ public:
 
 	bool is_valid_position( int& _pos_x, int& _pos_y );
 	bool place( int& _x, int& _y, std::string& _face );
-	bool rotate( std::string direction );
+	bool rotate( std::string& direction );
 	bool move();
 
 	void report();
