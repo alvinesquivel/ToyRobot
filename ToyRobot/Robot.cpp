@@ -12,13 +12,21 @@ bool Robot::is_valid_position( int& _pos_x, int& _pos_y )
 		return true;
 }
 
+bool Robot::is_valid_position( int& _pos_x, int& _pos_y, std::string _face )
+{
+	int x_maxBoundary = table.get_X();
+	int y_maxBoundary = table.get_Y();
+
+	if( _pos_x < 0 || _pos_x > x_maxBoundary ||
+		_pos_y < 0 || _pos_y > y_maxBoundary || validFaceDir.count( _face ) == 0 )
+		return false;
+	else
+		return true;
+}
+
 bool Robot::place( int& _x, int& _y, std::string& _face )
 {
-	if( !is_valid_position( _x, _y ) ) // ignore
-		return false;
-	
-	std::unordered_set<std::string> validFaceDir = { "NORTH","EAST","SOUTH","WEST" };
-	if( validFaceDir.count( _face ) == 0 )
+	if( !is_valid_position( _x, _y, _face ) ) // ignore
 		return false;
 
 	if( !placed )

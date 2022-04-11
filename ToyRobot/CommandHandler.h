@@ -1,6 +1,5 @@
 #pragma once
 #include "Robot.h"
-#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <sstream>
