@@ -1,9 +1,9 @@
 #pragma once
 #include "Invoker.h"
 
-void Invoker::setCommand( Command* command )
+void Invoker::setCommand( Command* _command )
 {
-	this->concreteCmd = command;
+	this->concreteCmd = _command;
 }
 
 

@@ -14,7 +14,7 @@ public:
 		delete concreteCmd;
 	}
 
-	void setCommand( Command* command );
+	void setCommand( Command* _command );
 
 	void executeCommand();
 

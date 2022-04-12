@@ -8,12 +8,12 @@ class Place : public Command {
 private:
 
 	Robot* robot;
-	int _x;
-	int _y;
-	std::string _face;
+	int x;
+	int y;
+	std::string face;
 
 public:
-	Place( Robot* r, int x, int y, std::string face ) : robot( r ), _x( x ), _y( y ), _face( face ) {}
+	Place( Robot* _robot, int _x, int _y, std::string _face ) : robot( _robot ), x( _x ), y( _y ), face( _face ) {}
 
 	void execute();
 };
@@ -26,7 +26,7 @@ private:
 
 
 public:
-	Move( Robot* r ) : robot( r ) {}
+	Move( Robot* _robot ) : robot( _robot ) {}
 
 	void execute();
 };
@@ -38,7 +38,7 @@ private:
 	Robot* robot;
 
 public:
-	Right( Robot* r ) : robot( r ) {}
+	Right( Robot* _robot ) : robot( _robot ) {}
 
 	void execute();
 };
@@ -49,7 +49,7 @@ private:
 	Robot* robot;
 
 public:
-	Left( Robot* r ) : robot( r ) {}
+	Left( Robot* _robot ) : robot( _robot ) {}
 
 	void execute();
 };
@@ -60,7 +60,7 @@ private:
 	Robot* robot;
 
 public:
-	Report( Robot* r ) : robot( r ) {}
+	Report( Robot* _robot ) : robot( _robot ) {}
 
 	void execute();
 };
