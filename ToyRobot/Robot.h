@@ -1,29 +1,22 @@
 #pragma once
-#include "Table.h"
-#include <unordered_set>
-#include <string>
 #include <iostream>
+#include <string>
+#include "Table.h"
+#include "Directions.h"
 
-
-class Robot
-{
-
+// Receiver
+class Robot {
 private:
-	int x;
-	int y;
 
-	Table table;
-	std::string face;
+	std::pair<int, int> position;
 	bool placed = false;
-	std::unordered_set<std::string> validFaceDir = { "NORTH","EAST","SOUTH","WEST" };
+	Directions direction;
+	Table table;
 
 public:
-
-	bool is_valid_position( int& _pos_x, int& _pos_y );
-	bool is_valid_position( int& _pos_x, int& _pos_y, std::string _face );
-	bool place( int& _x, int& _y, std::string& _face );
-	bool rotate( std::string& _direction );
+	bool place( int _X, int _Y, std::string _Face );
 	bool move();
-
+	bool right();
+	bool left();
 	void report();
 };

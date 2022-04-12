@@ -11,98 +11,59 @@ namespace ToyRobotTest
 	TEST_CLASS(RobotClass)
 	{
 	public:
-		TEST_METHOD(TestValidPosition)
+		TEST_METHOD(TestPlaceMethodValidArgs)
 		{
-			int x = 1;
-			int y = 1;
-			Robot r;
-			Assert::IsTrue( r.is_valid_position( x,y ) );
+			Robot robot;
+			Assert::IsTrue( robot.place( 1, 2, "NORTH" ) );
 		}
-		TEST_METHOD( TestInvalidPosition )
+		TEST_METHOD( TestPlaceMethodInvalidPosition )
 		{
-			int x = 5;
-			int y = 3;
-			Robot r;
-			Assert::IsFalse( r.is_valid_position( x, y ) );
+			Robot robot;
+			Assert::IsFalse( robot.place( 5,5,"WEST" ));
 		}
-		TEST_METHOD( TestPlaceValidArgs )
+		TEST_METHOD( TestPlaceMethodInvalidFaceDir )
 		{
-			int x = 1;
-			int y = 3;
-			std::string face = "EAST";
-			Robot r;
-			Assert::IsTrue( r.place( x, y, face ) );
+			Robot robot;
+			Assert::IsFalse( robot.place( 1, 2, "SOUTHEAST" ) );
 		}
-		TEST_METHOD( TestPlaceInvalidPos )
+		TEST_METHOD( TestMoveMethodValidPos )
 		{
-			int x = 6;
-			int y = 5;
-			std::string face = "EAST";
-			Robot r;
-			Assert::IsFalse( r.place( x, y, face ) );
+			Robot robot;
+			robot.place( 1, 2, "EAST");
+			Assert::IsTrue( robot.move() );
 		}
-		TEST_METHOD( TestPlaceInvalidFace )
+		TEST_METHOD( TestMoveMethodInvalidPos )
 		{
-			int x = 1;
-			int y = 3;
-			std::string face = "NOR";
-			Robot r;
-			Assert::IsFalse( r.place( x, y, face ) );
+			Robot robot;
+			robot.place( 4, 2, "EAST" );
+			Assert::IsFalse( robot.move() );
 		}
-		TEST_METHOD( TestRotateRight )
+		TEST_METHOD( TestMoveMethodNotPlaced )
 		{
-			std::string dir = "RIGHT";
-			int x = 1, y = 2;
-			std::string face = "EAST";
-			Robot r;
-			r.place( x, y, face );
-			Assert::IsTrue( r.rotate( dir ) );
+			Robot robot;
+			Assert::IsFalse( robot.move() );
 		}
-		TEST_METHOD( TestRotateLeft )
+		TEST_METHOD( TestRightMethodValid )
 		{
-			std::string dir = "LEFT";
-			int x = 1, y = 2;
-			std::string face = "NORTH";
-			Robot r;
-			r.place( x, y, face );
-			Assert::IsTrue( r.rotate( dir ) );
+			Robot robot;
+			robot.place( 3, 2, "NORTH" );
+			Assert::IsTrue( robot.right() );
 		}
-		TEST_METHOD( TestMoveNorth )
+		TEST_METHOD( TestRightMethodNotPlaced )
 		{
-			int x = 1, y = 2;
-			std::string face = "NORTH";
-			Robot r;
-			r.place( x, y, face );
-			Assert::IsTrue( r.move() );
+			Robot robot;
+			Assert::IsFalse( robot.move() );
 		}
-		TEST_METHOD( TestMoveSouth )
+		TEST_METHOD( TestLeftMethodValid )
 		{
-			int x = 1, y = 2;
-			std::string face = "SOUTH";
-			Robot r;
-			r.place( x, y, face );
-			Assert::IsTrue( r.move() );
+			Robot robot;
+			robot.place( 3, 2, "WEST" );
+			Assert::IsTrue( robot.left() );
 		}
-		TEST_METHOD( TestMoveEast )
+		TEST_METHOD( TestLeftMethodNotPlaced )
 		{
-			int x = 3, y = 2;
-			std::string face = "EAST";
-			Robot r;
-			r.place( x, y, face );
-			Assert::IsTrue( r.move() );
-		}
-		TEST_METHOD( TestMoveWest )
-		{
-			int x = 2, y = 2;
-			std::string face = "WEST";
-			Robot r;
-			r.place( x, y, face );
-			Assert::IsTrue( r.move() );
-		}
-		TEST_METHOD( TestMoveInvalid ) // move without placing the robot
-		{
-			Robot r;
-			Assert::IsFalse( r.move() );
+			Robot robot;
+			Assert::IsFalse( robot.left() );
 		}
 	};
 }

@@ -1,99 +1,83 @@
+#pragma once
 #include "Robot.h"
-#include <map>
 
-bool Robot::is_valid_position( int& _pos_x, int& _pos_y )
+bool Robot::place( int _X, int _Y, std::string _Face )
 {
-	int x_maxBoundary = table.get_X();
-	int y_maxBoundary = table.get_Y();
-	
-	if( _pos_x < 0 || _pos_x > x_maxBoundary || _pos_y < 0 || _pos_y > y_maxBoundary )
+	if( !this->placed )
+		this->placed = true;
+
+	if( !this->table.isValidPosition( _X, _Y ) )
+	{
+		std::cout << "INVALID X or Y POSITION. (MUST NOT BE GREATER THAN 4 OR LESS THAN 0)\n";
 		return false;
-	else
-		return true;
-}
+	}
 
-bool Robot::is_valid_position( int& _pos_x, int& _pos_y, std::string _face )
-{
-	int x_maxBoundary = table.get_X();
-	int y_maxBoundary = table.get_Y();
-
-	if( _pos_x < 0 || _pos_x > x_maxBoundary ||
-		_pos_y < 0 || _pos_y > y_maxBoundary || validFaceDir.count( _face ) == 0 )
+	if( !this->direction.isValidDirection( _Face ) )
+	{
+		std::cout << "INVALID FACING DIRECTION. (NORTH,EAST,WEST,SOUTH)\n";
 		return false;
-	else
-		return true;
-}
+	}
 
-bool Robot::place( int& _x, int& _y, std::string& _face )
-{
-	if( !is_valid_position( _x, _y, _face ) ) // ignore
-		return false;
-
-	if( !placed )
-		placed = true;
-	
-	x = _x;
-	y = _y;
-	face = _face;
-	
-	return true;
-}
-
-bool Robot::rotate( std::string& _direction  )
-{	
-	if( !placed ) // robot not placed.
-		return false;
-
-	std::string* current_face = &face;
-
-	std::map<std::string, std::string> turn_right{ {"NORTH", "EAST"}, {"EAST", "SOUTH"},
-			{"SOUTH", "WEST"}, {"WEST", "NORTH"} };
-
-	std::map<std::string, std::string> turn_left{ {"NORTH", "WEST"}, {"WEST", "SOUTH"},
-			{"SOUTH", "EAST"}, {"EAST", "NORTH"} };
-
-	if( _direction == "RIGHT" )
-		current_face = &turn_right[*current_face];
-	else if( _direction == "LEFT" )
-		current_face = &turn_left[*current_face];
-	else
-		return false; // invalid direction
-
-	face = *current_face;
+	this->position.first = _X;
+	this->position.second = _Y;
+	this->direction.facingDirection = _Face;
 	return true;
 }
 
 bool Robot::move()
 {
-	if( !placed ) // robot not placed.
+	if( !this->placed )
 		return false;
 
-	int tmp_x = x;
-	int tmp_y = y;
+	int tmp_X = this->position.first;
+	int tmp_Y = this->position.second;
 
-	if( face == "NORTH" )
-		tmp_y += 1;
-	else if( face == "SOUTH" )
-		tmp_y -= 1;
-	else if( face == "EAST" )
-		tmp_x += 1;
-	else if( face == "WEST" )
-		tmp_x -= 1;
-	
-	if( is_valid_position( tmp_x, tmp_y ) )
+	if( this->direction.facingDirection == "NORTH" )
+		tmp_Y += 1;
+	else if( this->direction.facingDirection == "SOUTH" )
+		tmp_Y -= 1;
+	else if( this->direction.facingDirection == "EAST" )
+		tmp_X += 1;
+	else if( this->direction.facingDirection == "WEST" )
+		tmp_X -= 1;
+
+	if( this->table.isValidPosition( tmp_X, tmp_Y ) )
 	{
-		x = std::move( tmp_x );
-		y = std::move( tmp_y );
+		this->position.first = std::move( tmp_X );
+		this->position.second = std::move( tmp_Y );
+		
 		return true;
 	}
-	else // ignore, not valid x,y position.
+	else
 		return false;
+}
+
+bool Robot::right()
+{
+	if( !this->placed )
+		return false;
+
+	this->direction.turnRight();
+	return true;
+}
+
+bool Robot::left()
+{
+	if( !this->placed )
+		return false;
+
+	this->direction.turnLeft();
+	return true;
 }
 
 void Robot::report()
 {
-	if( placed )
-		std::cout << "Output: " << x << "," << y << "," << face << "\n";
-	else // ignore
+	if( !this->placed )
+	{
 		std::cout << "Robot is not placed!\n";
+		return;
+	}
+		
+
+	std::cout << "Output: " << this->position.first << "," << this->position.second << "," << this->direction.facingDirection << std::endl;
 }
