@@ -31,10 +31,12 @@ int main()
 
 		if( std::regex_match( input, sm, std::regex( "(PLACE)\\s+(\\d+,\\s*\\d+,\\s*\\w+).*" ) ) )
 		{
-			std::string placeComm = std::move( sm[1].str() );
-			std::string placeArgs_tmp = std::move( sm[2].str() );		 // placeArgs_tmp holds the arguments for PLACE command
-			clean( placeArgs_tmp );										 // remove whitespace, if there is any
-			auto placeArgs = finalizePlaceArgs( placeArgs_tmp );
+			// placeArgs_tmp holds the arguments for PLACE command
+			std::string placeArgsTmp = std::move( sm[2].str() );	
+			// remove whitespace, if there is any
+			clean( placeArgsTmp );
+			
+			auto placeArgs = finalizePlaceArgs( placeArgsTmp );
 			auto pArg0 = std::get<0>( placeArgs );
 			auto pArg1 = std::get<1>( placeArgs );
 			auto pArg2 = std::get<2>( placeArgs );
