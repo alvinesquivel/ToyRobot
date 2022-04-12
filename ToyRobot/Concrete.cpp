@@ -2,7 +2,7 @@
 
 void Place::execute()
 {
-	this->robot->place( this->_x, this->_y, this->_face );
+	this->robot->place( this->x, this->y, this->face );
 }
 
 void Move::execute()
