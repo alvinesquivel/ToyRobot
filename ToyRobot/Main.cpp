@@ -11,7 +11,7 @@ int main()
 	Robot* robot = new Robot;
 
 	std::string input;
-	std::smatch sm;
+	std::smatch matches;
 
 	std::unordered_map<std::string, Command*> cmdMap;
 	cmdMap.emplace( std::make_pair( std::string( "MOVE" ), new Move( robot ) ) );
@@ -29,10 +29,10 @@ int main()
 		}
 
 
-		if( std::regex_match( input, sm, std::regex( "(PLACE)\\s+(\\d+,\\s*\\d+,\\s*\\w+).*" ) ) )
+		if( std::regex_match( input, matches, std::regex( "(PLACE)\\s+(\\d+,\\s*\\d+,\\s*\\w+).*" ) ) )
 		{
 			// placeArgs_tmp holds the arguments for PLACE command
-			std::string placeArgsTmp = std::move( sm[2].str() );	
+			std::string placeArgsTmp = std::move( matches[2].str() );	
 			// remove whitespace, if there is any
 			clean( placeArgsTmp );
 			
