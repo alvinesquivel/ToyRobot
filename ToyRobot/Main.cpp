@@ -57,7 +57,10 @@ int main()
 		if( input == "REPORT" )
 			break;
 
-	}
+	} // end while
+
+	delete invoker;
+	delete robot;
 
 	
 	system( "pause" );
