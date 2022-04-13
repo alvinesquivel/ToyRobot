@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include <string>
 #include <regex>
 #include <unordered_map>
@@ -19,7 +18,7 @@ std::string clean( std::string& _str )
 std::tuple<int, int, std::string> finalizePlaceArgs( std::string& _str )
 {
 	std::smatch matches;
-	std::regex_match( _str, matches, std::regex( "(\\d+),(\\d+),(\\w+)" ) );
+	std::regex_match( _str, matches, std::regex( ".*(\\d+),(\\d+),(\\w+)" ) );
 	int p1 = std::stoi( matches[1].str() );
 	int p2 = std::stoi( matches[2].str() );
 	std::string p3 = matches[3];

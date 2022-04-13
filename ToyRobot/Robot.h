@@ -1,22 +1,23 @@
 #pragma once
-#include <iostream>
+#include <utility>
 #include <string>
-#include "Table.h"
-#include "Directions.h"
 
 // Receiver
 class Robot {
 private:
 
 	std::pair<int, int> position;
+	std::string facingDirection;
 	bool placed = false;
-	Directions direction;
-	Table table;
+
 
 public:
-	bool place( int _X, int _Y, std::string _Face );
-	bool move();
-	bool right();
-	bool left();
-	void report();
+	void place( int _X, int _Y, std::string _Face );
+	void move();
+	void right();
+	void left();
+
+	inline std::pair<int, int>& getPosition() { return position; }
+	inline std::string& getFacingDirection() { return facingDirection; }
+	inline bool isPlaced() { return placed; }
 };

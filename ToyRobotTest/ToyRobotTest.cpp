@@ -2,6 +2,8 @@
 #include "CppUnitTest.h"
 #include "../ToyRobot/Robot.h"
 #include "../ToyRobot/Robot.cpp"
+#include "../ToyRobot/Table.h"
+#include <tuple>
 
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -11,59 +13,69 @@ namespace ToyRobotTest
 	TEST_CLASS(RobotClass)
 	{
 	public:
-		TEST_METHOD(TestPlaceMethodValidArgs)
+		TEST_METHOD( TestPlaceMethodIfPlaced )
 		{
 			Robot robot;
-			Assert::IsTrue( robot.place( 1, 2, "NORTH" ) );
+			robot.place( 1, 2, "NORTH" );
+			Assert::IsTrue( robot.isPlaced() );
 		}
-		TEST_METHOD( TestPlaceMethodInvalidPosition )
+		TEST_METHOD( TestPlaceMethodPositionAndFace )
 		{
+			std::tuple<int, int, std::string> exp( 5, 5, "WEST" );
 			Robot robot;
-			Assert::IsFalse( robot.place( 5,5,"WEST" ));
+			robot.place( std::get<0>( exp ), std::get<1>( exp ), std::get<2>( exp ) );
+			Assert::AreEqual( std::get<0>( exp ), robot.getPosition().first );
+			Assert::AreEqual( std::get<1>( exp ), robot.getPosition().second );
+			Assert::AreEqual( std::get<2>( exp ), robot.getFacingDirection() );
 		}
-		TEST_METHOD( TestPlaceMethodInvalidFaceDir )
+		TEST_METHOD( TestMoveMethod )
 		{
 			Robot robot;
-			Assert::IsFalse( robot.place( 1, 2, "SOUTHEAST" ) );
+			robot.place( 1, 2, "EAST" );
+			robot.move();
+			Assert::AreEqual( 2, robot.getPosition().first );
 		}
-		TEST_METHOD( TestMoveMethodValidPos )
+		TEST_METHOD( TestRightMethodFromEast )
 		{
 			Robot robot;
-			robot.place( 1, 2, "EAST");
-			Assert::IsTrue( robot.move() );
+			robot.place( 2, 2, "EAST" );
+			robot.right();
+			Assert::AreEqual( std::string{ "SOUTH" }, robot.getFacingDirection() );
 		}
-		TEST_METHOD( TestMoveMethodInvalidPos )
+		TEST_METHOD( TestLeftMethodFromNorth )
 		{
 			Robot robot;
-			robot.place( 4, 2, "EAST" );
-			Assert::IsFalse( robot.move() );
+			robot.place( 2, 3, "NORTH" );
+			robot.left();
+			Assert::AreEqual( std::string{ "WEST" }, robot.getFacingDirection() );
 		}
-		TEST_METHOD( TestMoveMethodNotPlaced )
+	};
+	TEST_CLASS( TableClass ) 
+	{
+	public:
+		TEST_METHOD(TestIsValidPositionWithValidInts)
 		{
-			Robot robot;
-			Assert::IsFalse( robot.move() );
+			Table table;
+			int x = 2, y = 1;
+			Assert::IsTrue( table.isValidPosition( x, y ) );
 		}
-		TEST_METHOD( TestRightMethodValid )
+		TEST_METHOD( TestIsValidPositionWithInvalidInts )
 		{
-			Robot robot;
-			robot.place( 3, 2, "NORTH" );
-			Assert::IsTrue( robot.right() );
+			Table table;
+			int x = 5, y = 5;
+			Assert::IsFalse( table.isValidPosition( x, y ) );
 		}
-		TEST_METHOD( TestRightMethodNotPlaced )
+		TEST_METHOD( TestIsValidPositionWithValidPair )
 		{
-			Robot robot;
-			Assert::IsFalse( robot.move() );
+			Table table;
+			std::pair<int, int> p{ 3, 2 };
+			Assert::IsTrue( table.isValidPosition( p ) );
 		}
-		TEST_METHOD( TestLeftMethodValid )
+		TEST_METHOD( TestIsValidPositionWithInvalidPair )
 		{
-			Robot robot;
-			robot.place( 3, 2, "WEST" );
-			Assert::IsTrue( robot.left() );
-		}
-		TEST_METHOD( TestLeftMethodNotPlaced )
-		{
-			Robot robot;
-			Assert::IsFalse( robot.left() );
+			Table table;
+			std::pair<int, int> p{ 10, 7 };
+			Assert::IsFalse( table.isValidPosition( p ) );
 		}
 	};
 }

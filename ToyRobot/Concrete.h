@@ -45,13 +45,3 @@ public:
 	Left( Robot* _robot ) : robot( _robot ) {}
 	void execute();
 };
-
-
-class Report : public Command {
-private:
-	Robot* robot;
-
-public:
-	Report( Robot* _robot ) : robot( _robot ) {}
-	void execute();
-};

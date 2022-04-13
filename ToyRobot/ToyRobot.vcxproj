@@ -148,7 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="Concrete.h" />
-    <ClInclude Include="Directions.h" />
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="helpers.h" />
     <ClInclude Include="Invoker.h" />
     <ClInclude Include="Robot.h" />

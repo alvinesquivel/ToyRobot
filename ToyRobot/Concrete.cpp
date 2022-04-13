@@ -19,8 +19,3 @@ void Left::execute()
 {
 	this->robot->left();
 }
-
-void Report::execute()
-{
-	this->robot->report();
-}
