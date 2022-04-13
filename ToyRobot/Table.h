@@ -9,7 +9,6 @@ private:
 
 
 public:
-
 	bool isValidPosition( int _X, int _Y )
 	{
 		if( _X < 0 || _X > this->coordinates.first || _Y < 0 || _Y > this->coordinates.second )

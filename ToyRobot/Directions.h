@@ -14,8 +14,6 @@ public:
 	std::string facingDirection;
 
 
-
-
 public:
 
 	bool isValidDirection( std::string& _direction ) {

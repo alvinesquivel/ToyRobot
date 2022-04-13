@@ -4,10 +4,8 @@
 // Invoker
 class Invoker {
 private:
-
 	Command* concreteCmd;
 	
-
 public:
 	~Invoker()
 	{
@@ -15,7 +13,5 @@ public:
 	}
 
 	void setCommand( Command* _command );
-
 	void executeCommand();
-
 };
