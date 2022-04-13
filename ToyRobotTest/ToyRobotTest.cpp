@@ -31,9 +31,9 @@ namespace ToyRobotTest
 		TEST_METHOD( TestMoveMethod )
 		{
 			Robot robot;
-			robot.place( 1, 2, "EAST" );
+			robot.place( 3, 2, "EAST" );
 			robot.move();
-			Assert::AreEqual( 2, robot.getPosition().first );
+			Assert::AreEqual( 4, robot.getPosition().first );
 		}
 		TEST_METHOD( TestRightMethodFromEast )
 		{
@@ -48,34 +48,6 @@ namespace ToyRobotTest
 			robot.place( 2, 3, "NORTH" );
 			robot.left();
 			Assert::AreEqual( std::string{ "WEST" }, robot.getFacingDirection() );
-		}
-	};
-	TEST_CLASS( TableClass ) 
-	{
-	public:
-		TEST_METHOD(TestIsValidPositionWithValidInts)
-		{
-			Table table;
-			int x = 2, y = 1;
-			Assert::IsTrue( table.isValidPosition( x, y ) );
-		}
-		TEST_METHOD( TestIsValidPositionWithInvalidInts )
-		{
-			Table table;
-			int x = 5, y = 5;
-			Assert::IsFalse( table.isValidPosition( x, y ) );
-		}
-		TEST_METHOD( TestIsValidPositionWithValidPair )
-		{
-			Table table;
-			std::pair<int, int> p{ 3, 2 };
-			Assert::IsTrue( table.isValidPosition( p ) );
-		}
-		TEST_METHOD( TestIsValidPositionWithInvalidPair )
-		{
-			Table table;
-			std::pair<int, int> p{ 10, 7 };
-			Assert::IsFalse( table.isValidPosition( p ) );
 		}
 	};
 }

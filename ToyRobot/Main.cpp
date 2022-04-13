@@ -14,7 +14,6 @@ int main()
 	Robot* robot = new Robot;
 	Table table;
 	Direction direction;
-	
 
 	std::string input;
 	std::smatch matches;
@@ -32,6 +31,7 @@ int main()
 		if( input == "" )
 			continue;
 
+		toUpperCase( input );
 
 		if( std::regex_match( input, matches, placeRgx ) )
 		{
@@ -46,7 +46,7 @@ int main()
 			auto pArg2 = std::get<2>( placeArgs );
 
 			// Invalid placement position. Prompt user if needed.
-			if( !table.isValidPosition( pArg0, pArg1 ) )
+			if( !isValidPosition( table, pArg0, pArg1 ) )
 				continue;
 
 			// Invalid placement facing direction. Promp user if needed.
@@ -63,7 +63,7 @@ int main()
 
 		if( input == "MOVE" )
 		{
-			if( !table.isValidPosition( robot->getPosition() ) )
+			if( !isValidMove( table, robot ) )
 				continue;
 		}
 
