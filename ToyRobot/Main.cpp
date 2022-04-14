@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <iterator>
 #include "Concrete.h"
 #include "Invoker.h"
 #include "Robot.h"
@@ -20,8 +21,8 @@ int main()
 
 	std::unordered_map<std::string, Command*> cmdMap;
 	cmdMap.emplace( std::make_pair( std::string( "MOVE" ), new Move( robot ) ) );
-	cmdMap.emplace( std::make_pair( std::string( "RIGHT" ), new Right( robot ) ) );
-	cmdMap.emplace( std::make_pair( std::string( "LEFT" ), new Left( robot ) ) );
+	cmdMap.emplace( std::make_pair( std::string( "RIGHT" ), new Rotate( robot, "RIGHT" ) ) );
+	cmdMap.emplace( std::make_pair( std::string( "LEFT" ), new Rotate( robot, "LEFT" ) ) );
 
 	std::regex placeRgx( "(PLACE)\\s+(.*\\d+,\\s*\\d+,\\s*\\w+).*" );
 
@@ -50,7 +51,8 @@ int main()
 				continue;
 
 			// Invalid placement facing direction. Promp user if needed.
-			if( direction.knownDirections.find( pArg2 ) == direction.knownDirections.end() )
+			auto searchDirection = std::find( direction.knownDirections.begin(), direction.knownDirections.end(), pArg2 );
+			if( searchDirection == direction.knownDirections.end() )
 				continue;
 
 			invoker->setCommand( new Place( robot, pArg0, pArg1, pArg2 ) );
@@ -82,11 +84,13 @@ int main()
 				break;
 			else
 			{
-				std::cout << "Output: " << robot->getPosition().first << "," << robot->getPosition().second
-					<< "," << robot->getFacingDirection() << std::endl;
+				int pos_x = robot->getPosition().first;
+				int pos_y = robot->getPosition().second;
+				auto face = std::next( direction.knownDirections.begin(), robot->getFacingDirection() );
+				std::cout << "Output: " << pos_x << "," << pos_y
+					<< "," << *face << std::endl;
 				break;
 			}
-			
 	
 	} // end while
 

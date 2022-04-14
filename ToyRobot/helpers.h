@@ -46,22 +46,22 @@ bool isValidPosition( Table _table, int& _X, int& _Y )
 
 bool isValidMove( Table _table, Robot* _robot )
 {
-	if( _robot->getFacingDirection() == "EAST" )
+	if( _robot->getFacingDirection() == EAST )
 	{
 		if( _robot->getPosition().first + 1 > _table.getCoordinates().first )
 			return false;
 	}
-	else if( _robot->getFacingDirection() == "WEST" )
+	else if( _robot->getFacingDirection() == WEST )
 	{
 		if( _robot->getPosition().first - 1 < 0 )
 			return false;
 	}
-	else if( _robot->getFacingDirection() == "NORTH" )
+	else if( _robot->getFacingDirection() == NORTH )
 	{
 		if( _robot->getPosition().second + 1 > _table.getCoordinates().second )
 			return false;
 	}
-	else if( _robot->getFacingDirection() == "SOUTH" )
+	else if( _robot->getFacingDirection() == SOUTH )
 	{
 		if( _robot->getPosition().second - 1 < 0 )
 			return false;

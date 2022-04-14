@@ -1,10 +1,12 @@
 #pragma once
-#include <set>
 #include <string>
+#include <list>
 
+enum directions { NORTH, EAST, SOUTH, WEST };
 
 class Direction {
 public:
-	std::set<std::string> knownDirections{ "NORTH", "EAST", "SOUTH", "WEST" };
+	
+	std::list <std::string> knownDirections{ "NORTH", "EAST", "SOUTH", "WEST" };
 
 };

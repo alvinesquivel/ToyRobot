@@ -2,7 +2,7 @@
 
 void Place::execute()
 {
-	this->robot->place( this->x, this->y, this->face );
+	this->robot->place( this->x, this->y, this->facingDirection );
 }
 
 void Move::execute()
@@ -10,12 +10,7 @@ void Move::execute()
 	this->robot->move();
 }
 
-void Right::execute()
+void Rotate::execute()
 {
-	this->robot->right();
-}
-
-void Left::execute()
-{
-	this->robot->left();
+	this->robot->rotate( this->rotation );
 }

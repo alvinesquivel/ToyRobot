@@ -4,14 +4,22 @@
 #include "Robot.h"
 
 
-void Robot::place( int _X, int _Y, std::string _Face )
+void Robot::place( int _X, int _Y, std::string _FacingDirection )
 {
 	if( !placed )
 		placed = true;
 
 	position.first = _X;
 	position.second = _Y;
-	facingDirection = _Face;
+
+	if( _FacingDirection == "NORTH" )
+		facingDirection = NORTH;
+	else if( _FacingDirection == "EAST" )
+		facingDirection = EAST;
+	else if( _FacingDirection == "SOUTH" )
+		facingDirection = SOUTH;
+	else if( _FacingDirection == "WEST" )
+		facingDirection = WEST;
 }
 
 void Robot::move()
@@ -19,38 +27,32 @@ void Robot::move()
 	if( !placed )
 		return;
 
-	if( facingDirection == "NORTH" )
+	switch( facingDirection )
+	{
+	case NORTH:
 		position.second += 1;
-	else if( facingDirection == "SOUTH" )
-		position.second -= 1;
-	else if( facingDirection == "EAST" )
+		break;
+	case EAST:
 		position.first += 1;
-	else if( facingDirection == "WEST" )
+		break;
+	case SOUTH:
+		position.second -= 1;
+		break;
+	case WEST:
 		position.first -= 1;
+		break;
+	default:
+		break;
+	}
 }
 
-void Robot::right()
+void Robot::rotate( std::string _toWhat )
 {
 	if( !placed )
 		return;
 
-	std::unordered_map<std::string, std::string> turnRightDirs{
-		{"NORTH", "EAST"}, {"EAST", "SOUTH"},
-		{"SOUTH", "WEST"}, {"WEST", "NORTH"}
-	};
-
-	facingDirection = turnRightDirs[facingDirection];
-}
-
-void Robot::left()
-{
-	if( !placed )
-		return;
-
-	std::unordered_map<std::string, std::string> turnLeftDirs{
-		{"NORTH", "WEST"}, {"WEST", "SOUTH"},
-		{"SOUTH", "EAST"}, {"EAST", "NORTH"}
-	};
-
-	facingDirection = turnLeftDirs[facingDirection];
+	if( _toWhat == "RIGHT" )
+		facingDirection = (facingDirection + 1) % 4;
+	else if( _toWhat == "LEFT" )
+		facingDirection = (facingDirection + 3) % 4;
 }
